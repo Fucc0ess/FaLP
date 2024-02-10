@@ -66,20 +66,20 @@ women :- woman(X), write(X), nl, fail. %women - вывод всех женщин
 children(X) :- parent(X, Y), write(Y), nl, fail. %children(+X) - вывод всех детей X
 mother(X, Y) :- parent(X, Y), woman(X). %mother(+X, +Y) - проверка является ли X матерью Y
 mother(X) :- mother(Y, X), write(Y). %mother(+X) - вывод матери Y
-brother(X, Y) :- parent(Z, X), parent(Z, Y), man(Z), man(X). %brother(+X, +Y) - проверка является ли X братом Y
+brother(X, Y) :- parent(Z, X), parent(Z, Y), man(Z), man(X). %brother(?X, +Y) - проверка является ли X братом Y
 brothers(X) :- brother(Y, X), not(Y==X), write(Y), nl, fail. %brothers(+X) - вывод всех братьев X
 
-b_s(X, Y) :- parent(Z, X), parent(Z, Y), man(Z), not(X==Y). %b_s(+X, +Y) - проверка являются ли X и Y братьями, или сестрами, или братом и сестрой
+b_s(X, Y) :- parent(Z, X), parent(Z, Y), man(Z), not(X==Y). %b_s(+X, ?Y) - проверка являются ли X и Y братьями, или сестрами, или братом и сестрой
 b_s(X) :- b_s(X, Y), not(X==Y), write(Y), nl, fail. %b_s(+X) - вывод всех братьев и сестёр X
 
 %Задание 2
-daughter(X, Y) :- parent(Y, X), woman(X). %daughter(+X, +Y) - проверка является ли X дочерью Y
+daughter(X, Y) :- parent(Y, X), woman(X). %daughter(?X, +Y) - проверка является ли X дочерью Y
 daughter(X) :- daughter(Y, X), write(Y), nl, fail. %daughter(+X) - вывод дочерей X
-husband(X, Y) :- parent(X, Z), parent(Y, Z), man(X). %husband(+X, +Y) - проверка является ли X мужем Y
+husband(X, Y) :- parent(X, Z), parent(Y, Z), man(X). %husband(?X, +Y) - проверка является ли X мужем Y
 husband(X) :- husband(Y, X), man(Y), not(X==Y), write(Y). %husband(+X) - вывод мужа X
 
 %Задание 3
-%grand_ma(+X, +Y) - проверка является ли X бабушкой Y
+%grand_ma(?X, +Y) - проверка является ли X бабушкой Y
 grand_ma(X, Y) :- woman(X), parent(X, Z), parent(Z, Y).
 %grand_ma(X, Y) :- mother(X, Z), parent(Z, Y).
 
@@ -89,8 +89,9 @@ grand_mas(X) :- grand_ma(Y, X), write(Y), nl, fail. %grand_mas(+X) - вывод 
 grand_ma_and_da(X, Y) :- woman(X), woman(Y), (parent(X, Z), parent(Z, Y); parent(Y, Z), parent(Z, X)).
 % grand_ma_and_da(X, Y) :- mother(X, Z), daughter(Y, Z); mother(Y, Z), daughter(X, Z).
 
-%aunt(+X, +Y) - проверка является ли X тётей Y
+%aunt(?X, +Y) - проверка является ли X тётей Y
 aunt(X, Y) :- woman(X), not(parent(X, Y)), parent(Z, V), parent(V, Y), (parent(Z, X); parent(Z, W), parent(W, C), parent(X,C)).
 % aunt(X, Y) :- woman(X), not(parent(X, Y)), parent(Z, Y), (b_s(Z, X); b_s(Z, V), husband(V, X)).
 
 aunts(X) :- aunt(Y, X), woman(Y), write(Y), nl, fail. %aunts(+X) - вывод всех тётей X
+
