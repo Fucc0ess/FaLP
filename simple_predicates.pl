@@ -60,12 +60,12 @@ parent(duhovlad,zlatomir).
 parent(zhdana,zdislava).
 parent(zhdana,zlatomir).
 
-men :- man(X), write(X), nl, fail. %men - вывод всех мужчин
-women :- woman(X), write(X), nl, fail. %women - вывод всех женщин
-children(X) :- parent(X, Y), write(Y), nl, fail. %children(+X) - вывод всех детей X
-mother(X, Y) :- parent(X, Y), woman(X). %mother(+X, +Y) - проверка является ли X матерью Y
-mother(X) :- parent(Y, X), woman(Y), write(Y). %mother(+X) - вывод матери Y
-brother(X, Y) :- parent(Z, X), parent(Z, Y), man(X). %brother(+X, +Y) - проверка является ли X братом Y
-brothers(X) :- parent(Z, X), parent(Z, Y), not(X==Y), man(Z), man(Y), write(Y), nl, fail. %brothers(+X) - вывод всех братьев X
-b_s(X, Y) :- parent(Z, X), parent(Z, Y). %b_s(+X, +Y) - проверка являются ли X и Y братьями, или сестрами, или братом и сестрой
-b_s(X) :- parent(Z, X), parent(Z, Y), not(X==Y), man(Z), write(Y), nl, fail. %b_s(+X) - вывод всех братьев и сестёр X
+men :- man(X), write(X), nl, fail. %men - ГўГ»ГўГ®Г¤ ГўГ±ГҐГµ Г¬ГіГ¦Г·ГЁГ­
+women :- woman(X), write(X), nl, fail. %women - ГўГ»ГўГ®Г¤ ГўГ±ГҐГµ Г¦ГҐГ­Г№ГЁГ­
+children(X) :- parent(X, Y), write(Y), nl, fail. %children(+X) - ГўГ»ГўГ®Г¤ ГўГ±ГҐГµ Г¤ГҐГІГҐГ© X
+mother(X, Y) :- parent(X, Y), woman(X). %mother(+X, +Y) - ГЇГ°Г®ГўГҐГ°ГЄГ  ГїГўГ«ГїГҐГІГ±Гї Г«ГЁ X Г¬Г ГІГҐГ°ГјГѕ Y
+mother(X) :- parent(Y, X), woman(Y), write(Y). %mother(+X) - ГўГ»ГўГ®Г¤ Г¬Г ГІГҐГ°ГЁ Y
+brother(X, Y) :- parent(Z, X), parent(Z, Y), man(X). %brother(+X, +Y) - ГЇГ°Г®ГўГҐГ°ГЄГ  ГїГўГ«ГїГҐГІГ±Гї Г«ГЁ X ГЎГ°Г ГІГ®Г¬ Y
+brothers(X) :- parent(Z, X), parent(Z, Y), not(X==Y), man(Z), man(Y), write(Y), nl, fail. %brothers(+X) - ГўГ»ГўГ®Г¤ ГўГ±ГҐГµ ГЎГ°Г ГІГјГҐГў X
+b_s(X, Y) :- parent(Z, X), parent(Z, Y). %b_s(+X, +Y) - ГЇГ°Г®ГўГҐГ°ГЄГ  ГїГўГ«ГїГѕГІГ±Гї Г«ГЁ X ГЁ Y ГЎГ°Г ГІГјГїГ¬ГЁ, ГЁГ«ГЁ Г±ГҐГ±ГІГ°Г Г¬ГЁ, ГЁГ«ГЁ ГЎГ°Г ГІГ®Г¬ ГЁ Г±ГҐГ±ГІГ°Г®Г©
+b_s(X) :- parent(Z, X), parent(Z, Y), not(X==Y), man(Z), write(Y), nl, fail. %b_s(+X) - ГўГ»ГўГ®Г¤ ГўГ±ГҐГµ ГЎГ°Г ГІГјГҐГў ГЁ Г±ГҐГ±ГІВёГ° X
