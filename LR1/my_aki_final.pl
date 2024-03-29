@@ -98,3 +98,8 @@ question3(X3):-	write("Main genre of your game?"),nl,
 		write("  1.   Soulslike"),nl,
                 write("  0.   Multiplayer Online Battle Arena"),nl,
 		read(X3).
+  
+pr:-	question1(X1), question2(X2), question3(X3), players(X,X1), platforms(X,X2), genre(X,X3),
+        write("My suggestion based on your answers is "), write(X).
+
+
