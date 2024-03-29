@@ -72,4 +72,8 @@ brothers(X) :- brother(Y, X), not(Y==X), write(Y), nl, fail. %brothers(+X) - в�
 b_s(X, Y) :- parent(Z, X), parent(Z, Y), man(Z), not(X==Y). %b_s(+X, ?Y) - +Y проверка являются ли X и Y братьями, или сестрами, или братом и сестрой; -Y вывод брата/сестры X
 b_s(X) :- b_s(X, Y), not(X==Y), write(Y), nl, fail. %b_s(+X) - вывод всех братьев и сестёр X
 
-
+%Задание 2
+daughter(X, Y) :- parent(Y, X), woman(X). %daughter(?X, +Y) - +X проверка является ли X дочерью Y; -X вывод дочери Y
+daughter(X) :- daughter(Y, X), write(Y), nl, fail. %daughter(+X) - вывод дочерей X
+husband(X, Y) :- parent(X, Z), parent(Y, Z), man(X). %husband(?X, +Y) - +X проверка является ли X мужем Y; -X вывод мужа Y
+husband(X) :- husband(Y, X), man(Y), not(X==Y), write(Y). %husband(+X) - вывод мужа X
