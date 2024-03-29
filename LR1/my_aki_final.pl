@@ -18,7 +18,6 @@ players(cs2, 1).
 players(dead_space, 0).
 players(destiny_2, 2).
 players(baldurs_gate_3, 1).
-players(the_division_2, 2).
 
 platforms(genshin_impact, 10).
 platforms(red_dead_redemption_2, 9).
@@ -40,7 +39,6 @@ platforms(cs2, 1).
 platforms(dead_space, 9).
 platforms(destiny_2, 9).
 platforms(baldurs_gate_3, 9).
-platforms(the_division_2, 9).
 
 genre(genshin_impact, 6).
 genre(red_dead_redemption_2, 6).
@@ -62,10 +60,6 @@ genre(cs2, 8).
 genre(dead_space, 9).
 genre(destiny_2, 10).
 genre(baldurs_gate_3, 11).
-genre(the_division_2, 10).
-
-pov(destiny_2, 0).
-pov(the_division_2, 1).
 
 
 
@@ -104,19 +98,3 @@ question3(X3):-	write("Main genre of your game?"),nl,
 		write("  1.   Soulslike"),nl,
                 write("  0.   Multiplayer Online Battle Arena"),nl,
 		read(X3).
-
-question4(X4):- write("What's the POV of your game?"),nl,
-                write("1.   3rd Person"),nl,
-                write("0.   1st Person"),nl,
-                read(X4).
-
-
-
-pr:-	question1(X1), question2(X2),
-	(X2\=10, X2\=5, X2\=4, X2\=3, X2\=2, X2\=6, X2\=0, X2\=7 -> question3(X3), (X3==10 ->
-                                                                                     question4(X4), pov(X,X4), players(X,X1), platforms(X,X2), genre(X,X3);
-                                                                                     players(X,X1), platforms(X,X2), genre(X,X3));
-                                                                     players(X,X1), platforms(X,X2)),
-        write("My suggestion based on your answers is "), write(X).
-
-
