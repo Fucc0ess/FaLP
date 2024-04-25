@@ -68,3 +68,28 @@ dividers_up(X, D, N) :- D1 is D + 1, dividers_up(X, D1, N1), Ost is (X mod D), (
 dividers_down(X, N) :- dividers_down(X, N, 1, 1).
 dividers_down(X, C, X, C) :- !.
 dividers_down(X, Count, CurDel, CurCount) :- Ost is (X mod CurDel), ((Ost == 0) -> NewCount is CurCount + 1; NewCount is CurCount), NewDel is CurDel + 1, dividers_down(X, Count, NewDel, NewCount).
+
+% Задание 3
+% 6. Дан целочисленный массив. Необходимо осуществить циклический сдвиг элементов массива влево на три позиции
+% left3_shift(+N) - предикат, отвечающий за проверку входных данных и за вход в программу
+% read_list(-List, +N) - предикат, отвечающий за считывание массива
+% left3_shift(+List, -NList) - предикат, отвечающий за основную логику работы. Выполняет циклический сдвиг на 3 элемента влево
+% write_list(+List) - предикат, отвечающий за вывод массива
+left3_shift(N) :- (N < 4 -> write('N must be equal or greater than 4'), fail; read_list(List, N), left3_shift(List, NList), write_list(NList)).
+left3_shift([H1,H2,H3|T], NList) :- append(T, [H1,H2,H3], NList).
+
+% 19. Дан целочисленный массив. Необходимо осуществить циклический сдвиг элементов массива вправо на одну позицию
+% right_shift(+N) - предикат, отвечающий за проверку входных данных и за вход в программу
+% read_list(-List, +N) - предикат, отвечающий за считывание массива
+% right_shift(+List, -Last, -NList) - предикат, отвечающий за основную логику работы. Выполняет циклический сдвиг на 1 элемент вправо
+% write_list(+List) - предикат, отвечающий за вывод массива
+right_shift(N) :- (N < 2 -> write('N must be equal or greater than 2'), fail; read_list(List, N), right_shift(List, Last, NewList), append([Last], NewList, NList), write_list(NList)).
+right_shift([], _, _) :- !.
+right_shift([H|T], Last, NList) :- right_shift(T, Last, CurList), (T == [] -> Last is H; append([H], CurList, NList)).
+
+% 33. Дан целочисленный массив. Проверить, чередуются ли в нем положительные и отрицательные числа
+% alt_check(+N) - предикат, отвечающий за проверку входных данных и за вход в программу
+% read_list(-List, +N) - предикат, отвечающий за считывание массива
+% alt_check(+List, -NList) - предикат, отвечающий за основную логику работы. Выполняет проверку чередования положительных и отрицательных элементов в массиве
+alt_check(N) :- (N < 2 -> write('N must be equal or greater than 2'), fail; read_list(List, N), alt_chk(List)).
+alt_chk([H1,H2|T]) :- (((H1 < 0, H2 > 0); (H1 > 0, H2 < 0)) -> (T == [] -> !; append([H2],T, CurList), alt_chk(CurList)); fail).
