@@ -93,3 +93,30 @@ right_shift([H|T], Last, NList) :- right_shift(T, Last, CurList), (T == [] -> La
 % alt_check(+List, -NList) - предикат, отвечающий за основную логику работы. Выполняет проверку чередования положительных и отрицательных элементов в массиве
 alt_check(N) :- (N < 2 -> write('N must be equal or greater than 2'), fail; read_list(List, N), alt_chk(List)).
 alt_chk([H1,H2|T]) :- (((H1 < 0, H2 > 0); (H1 > 0, H2 < 0)) -> (T == [] -> !; append([H2],T, CurList), alt_chk(CurList)); fail).
+
+% Задание 5
+% Найти сумму непростых делителей числа.
+% sum_del_call(+X) - предикат, отвечающий за выхов основного предиката и вывод ответа
+% sum_del_call(+X, +CurDel, -Sum, +CurSum) - предикат, отвечающий за основную логику работы. Выполняет нахождение делителей числа, и их суммирование после проверки простоты
+% dividers_up(+X, -N) - предикат, считающий количество делителей числа
+sum_del_call(X) :- sum_del(X, 2, Sum, 0), write(Sum).
+
+sum_del(X, X, FSum, Sum) :- dividers_up(X, N), (N > 2 -> FSum is Sum + X; FSum is Sum), !.
+sum_del(X, CurDel, Sum, CurSum) :- NewDel is CurDel + 1, Ost is (X mod CurDel), (Ost == 0 -> dividers_up(CurDel, N), (N > 2 -> NSum is CurSum + CurDel; NSum is CurSum); NSum is CurSum), sum_del(X, NewDel, Sum, NSum).
+
+% Найти количество чисел, не являющихся делителями исходного числа, не взаимно простых с ним и взаимно простых с суммой простых цифр этого числа
+% kol_chisl_call(+X) - предикат, отвечающий за выхов основного предиката и вывод ответа
+% two_way_prime(+X, +Y, +Del) - предикат, проверяющий 2 числа на взаимную простоту
+% prime_cifr_sum(+X, -Sum, +CurSum) - предикат, суммирующий простые цифры числа
+% dividers_down(+X, -N) - предикат, считающий количество делителей числа
+% kol_chisl(+X, +CurChisl, -N, +CurN) - предикат, отвечающий за основную логику работы. Выполняет подсчёт количества удовлетворяющих условиям чисел
+kol_chisl_call(X) :- kol_chisl(X, 2, N, 0), write(N).
+
+two_way_prime(X, Y, X) :- OstXY is X mod Y, OstYX is Y mod X, ((OstXY == 0; OstYX == 0) -> fail; true), !.
+two_way_prime(X, Y, Del) :- NewDel is Del + 1, OstX is X mod Del, OstY is Y mod Del, (OstX == 0, OstY == 0 -> fail, !; two_way_prime(X, Y, NewDel)).
+
+prime_cifr_sum(0, Sum, Sum) :- !.
+prime_cifr_sum(X, Sum, CurSum) :- CurCifr is (X mod 10), X1 is X//10, dividers_down(CurCifr, N), (N == 2 -> NewSum is CurSum + CurCifr; NewSum is CurSum), prime_cifr_sum(X1, Sum, NewSum).
+
+kol_chisl(X, X, N, N) :- !.
+kol_chisl(X, CurChisl, N, CurN) :- NewChisl is CurChisl + 1, ((not(two_way_prime(X, CurChisl, 2)), prime_cifr_sum(X, S, 0), two_way_prime(CurChisl, S, 2)) -> NewN is CurN + 1; NewN is CurN), kol_chisl(X, NewChisl, N, NewN).
