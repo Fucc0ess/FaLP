@@ -120,3 +120,17 @@ prime_cifr_sum(X, Sum, CurSum) :- CurCifr is (X mod 10), X1 is X//10, dividers_d
 
 kol_chisl(X, X, N, N) :- !.
 kol_chisl(X, CurChisl, N, CurN) :- NewChisl is CurChisl + 1, ((not(two_way_prime(X, CurChisl, 2)), prime_cifr_sum(X, S, 0), two_way_prime(CurChisl, S, 2)) -> NewN is CurN + 1; NewN is CurN), kol_chisl(X, NewChisl, N, NewN).
+
+% Задание 6
+% Найдите сумму всех чисел, которые равны сумме факториала их цифр
+% task6_call(+X) - предикат, отвечающий за выхов основного предиката и вывод ответа
+% sum_fact(+X, -Sum, +CurSum) - предикат, вычисляющий сумму факториалов цифр числа X
+% fact_up(+CurX, -N) - предикат, вычисляющий факториал числа X
+% int_num(+CurX, -Sum, +CurSum) - предикат, отвечающий за основную логику работы. Вычисляет сумму чисел, удовлетворяющих условиям задачи
+sum_fact(0, Sum, Sum) :- !.
+sum_fact(X, Sum, CurSum) :- X1 is X//10, CurX is X mod 10, fact_up(CurX, F), NewSum is CurSum + F, sum_fact(X1, Sum, NewSum).
+
+task6_call(X) :- int_num(X, Sum, 0), write(Sum).
+
+int_num(9, Sum, Sum) :- !.
+int_num(CurX, Sum, CurSum) :- NewX is CurX - 1, sum_fact(CurX, SumFact, 0), (CurX == SumFact -> NewSum is CurSum + CurX; NewSum is CurSum), int_num(NewX, Sum, NewSum).
