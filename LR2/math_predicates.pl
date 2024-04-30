@@ -134,3 +134,59 @@ task6_call(X) :- int_num(X, Sum, 0), write(Sum).
 
 int_num(9, Sum, Sum) :- !.
 int_num(CurX, Sum, CurSum) :- NewX is CurX - 1, sum_fact(CurX, SumFact, 0), (CurX == SumFact -> NewSum is CurSum + CurX; NewSum is CurSum), int_num(NewX, Sum, NewSum).
+
+% Задание 7
+% 42. Дан целочисленный массив. Найти все элементы, которые меньше среднего арифметического элементов массива
+% task71_call(+N) - предикат, отвечающий за выхов основного предиката и вывод ответа
+% read_list(-List, +N) - предикат, отвечающий за считывание массива
+% write_list(+List) - предикат, отвечающий за вывод массива
+% list_sum(+List, -Sum, +CurSum) - предикат, считающий сумму элементов массива
+% over_avg(+List, +Avg, -NewList, +CurList) - предикат, проверяющий элементы массива на условие задачи и добавляющий их в новый массив при положительном результате
+task71_call(N) :- read_list(List, N), list_sum(List, Sum, 0), Avg is (Sum/N), over_avg(List, Avg, NewList, []), write_list(NewList).
+
+list_sum([], Sum, Sum) :- !.
+list_sum([H|T], Sum, CurSum) :- NewSum is CurSum + H, list_sum(T, Sum, NewSum).
+
+over_avg([], _, List, List) :- !.
+over_avg([H|T], Avg, List, CurList) :- ((H > Avg) -> append(CurList, [H], NewList); append(CurList, [], NewList)), over_avg(T, Avg, List, NewList).
+
+% 45. Дан целочисленный массив и интервал a..b. Необходимо найти сумму элементов, значение которых попадает в этот интервал
+% task72_call(+N, +A, +B) - предикат, отвечающий за выхов основного предиката и вывод ответа
+% read_list(-List, +N) - предикат, отвечающий за считывание массива
+% list_sumab(+List, +A, +B, -Sum, +CurSum) - предикат, отвечающий за проверку принадлежности элементов массива интервалу (a,b) и добавляющий их в новый массив при положительном результате
+task72_call(N, A, B) :- read_list(List, N), list_sumab(List, A, B, Sum, 0), write(Sum).
+
+list_sumab([], _, _, Sum, Sum) :- !.
+list_sumab([H|T], A, B, Sum, CurSum) :- ((H > A, H < B) -> NewSum is CurSum + H, !; NewSum is CurSum), list_sumab(T, A, B, Sum, NewSum).
+
+% 49. Для введенного списка положительных чисел построить список всех положительных простых делителей элементов списка без повторений
+% task73_call(+N) - предикат, отвечающий за выхов основного предиката и вывод ответа
+% read_list(-List, +N) - предикат, отвечающий за считывание массива
+% write_list(+List) - предикат, отвечающий за вывод массива
+% list_check() - предикат, отвечающий за проход по списку и вызов предиката find_dividers
+% find_dividers() - предикат, отвечающий за нахождение простых делителей X и вызов предиката add_dividers
+% add_dividers() - предикат, отвечающий за проверку элемента на уникальность и добавление его в общий массив
+task73_call(N) :- read_list(List, N), list_check(List, NewList, []), write_list(NewList).
+
+list_check([], List, List) :- !.
+list_check([H|T], List, CurList) :- find_dividers(H, 1, NewList, CurList), list_check(T, List, NewList).
+
+find_dividers(X, X, List, CurList) :- dividers_down(X, N), (N == 2 -> add_dividers(X, CurList, List, CurList); append(CurList, [], List)), !.
+find_dividers(X, CurDel, List, CurList) :- NewDel is CurDel + 1, Ost is X mod CurDel, (Ost == 0 -> dividers_down(CurDel, N), (N == 2 -> add_dividers(CurDel, CurList, NewList, CurList); append(CurList, [], NewList)); append(CurList, [], NewList)), find_dividers(X, NewDel, List, NewList).
+
+add_dividers(X, [], List, FullList) :- append(FullList, [X], List), !.
+add_dividers(X, [H|T], List, FullList) :- (not(X == H) -> add_dividers(X, T, List, FullList); append(FullList, [], List)).
+
+% 60. Дан список. Построить массив из элементов, делящихся на свой номер и встречающихся в исходном массиве 1 раз
+% task74_call(+N) - предикат, отвечающий за выхов основного предиката и вывод ответа
+% read_list(-List, +N) - предикат, отвечающий за считывание массива
+% write_list(+List) - предикат, отвечающий за вывод массива
+% list_check74(+List, +N, -List, +CurList) - предикат, проверяющий элементы массива на делимость на их номер, вызывающий предикат check_exclusive для проверки уникальности элемента, добавляющий элемент в новый список при положительном результате обеих проверок
+% check_exclusive(+X, +List) - предикат, проверяющий X на уникальность в List
+task74_call(N) :- read_list(List, N), list_check74(List, 1, NewList, []), write_list(NewList).
+
+list_check74([], _, List, List) :- !.
+list_check74([H|T], N, List, CurList) :- N1 is N + 1, Ost is H mod N, (Ost == 0, check_exclusive(H, T) -> append(CurList, [H], NewList), !; append(CurList, [], NewList)), list_check74(T, N1, List, NewList).
+
+check_exclusive(_, []) :- !.
+check_exclusive(X, [H|T]) :- (not(X == H) -> check_exclusive(X, T); fail).
