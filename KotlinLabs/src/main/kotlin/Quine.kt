@@ -1,0 +1,1 @@
+fun main() { val quine = "fun main() { val quine = \"...\"; val escQuine = quine.replace(\"\" + 0x22.toChar(), \"\" + 0x5c.toChar() + 0x22.toChar()); println(quine.replaceFirst(\"...\", escQuine)); }"; val escQuine = quine.replace("" + 0x22.toChar(), "" + 0x5c.toChar() + 0x22.toChar()); println(quine.replaceFirst("...", escQuine)); }
