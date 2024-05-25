@@ -86,10 +86,31 @@ class RecursiveFuncs {
             dividersTailRec(number, divider + 1, curCount)
         }
     }
+
+    /**
+     * Функция высших порядков для нахождения максимума среди значений переданной функции от чисел в списке
+     */
+    fun findMax(numbers: List<Int>, callbackFun: (Int) -> Int): Int {
+        return findMax(numbers, callbackFun, 0, callbackFun(numbers[0]))
+    }
+
+    /**
+     * Хвостовая рекурсия функции высших порядков для нахождения максимума
+     */
+    private tailrec fun findMax(numbers: List<Int>, callbackFun: (Int) -> Int, index: Int, max: Int): Int {
+        if (index == numbers.size)
+            return max
+
+        val callbackValue = callbackFun(numbers[index])
+        val newMax = if (max > callbackValue) max else callbackValue
+
+        return findMax(numbers, callbackFun,index + 1, newMax)
+    }
 }
 
 fun main() {
     val rec = RecursiveFuncs()
     println(rec.dividers(12))
     println(rec.dividersTailRec(12))
+    println(rec.findMax(listOf(123,121,789), rec::digitsLessThan3))
 }
