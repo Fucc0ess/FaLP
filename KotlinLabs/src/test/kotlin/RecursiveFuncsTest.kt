@@ -44,4 +44,20 @@ internal class RecursiveFuncsKtTest {
         val expected = 6
         assertEquals(expected, main.dividersTailRec(-12))
     }
+
+    @Test
+    fun primeDividersSum() {
+        val main = RecursiveFuncs()
+        val expected = 10
+        assertEquals(expected, main.primeDividersSum(-12))
+        assertEquals(expected, main.primeDividersSum(12))
+    }
+
+    @Test
+    fun complexFuncFor7() {
+        val main = RecursiveFuncs()
+        val expected = 3
+        assertEquals(expected, main.complexFuncFor7(15))
+        assertEquals(expected, main.complexFuncFor7(-15))
+    }
 }

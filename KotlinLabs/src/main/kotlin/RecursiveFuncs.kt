@@ -1,5 +1,6 @@
-import java.math.BigInteger
 import kotlin.math.abs;
+import kotlin.math.max
+import kotlin.math.min
 
 class RecursiveFuncs {
 
@@ -108,6 +109,77 @@ class RecursiveFuncs {
 
         return findMax(numbers, callbackFun,index + 1, newMax)
     }
+
+    /**
+     * Сумма непростых делителей числа
+     */
+    tailrec fun primeDividersSum(number: Int, divider: Int = 2, sum: Int = 0): Int {
+        val absnum = abs(number)
+        return if (divider > absnum / 2) {
+            sum
+        }
+        else {
+            var newSum = sum
+            if ((absnum % divider == 0) and (dividersTailRec(divider) > 2)) {
+                 newSum += divider
+            }
+            primeDividersSum(absnum, divider + 1, newSum)
+        }
+    }
+
+    /**
+     * Количество чисел, не являющихся делителями исходного числа, не взамнопростых с ним и взаимно простых с суммой простых цифр этого числа
+     */
+    tailrec fun complexFuncFor7(number: Int, curNum: Int = 2, count: Int = 0): Int {
+        val absnum = abs(number)
+        return if (curNum == absnum) {
+            count
+        }
+        else {
+            val sumCifr = primeDigitsSum(absnum)
+            var curCount = count
+            if ((absnum % curNum != 0) and (!twoWayPrime(absnum, curNum)) and (twoWayPrime(sumCifr, curNum))) {
+                curCount += 1
+            }
+            complexFuncFor7(absnum, curNum + 1, curCount)
+        }
+    }
+    // Проверка на взаимную простоту
+    tailrec fun twoWayPrime(number1: Int, number2: Int, divider: Int = 2): Boolean {
+        val max = if (number1 >= number2) number1 else number2
+        val min = if (number1 < number2) number1 else number2
+        return if (divider == min) {
+            max % min != 0
+        }
+        else {
+            if ((number1 % divider == 0) and (number2 % divider == 0)){
+                false
+            }
+            else {
+                twoWayPrime(number1, number2, divider + 1)
+            }
+        }
+    }
+    // Сумма простых цифр
+    tailrec fun primeDigitsSum(number: Int, sum: Int = 0): Int {
+        val absnum = abs(number)
+        return if (absnum < 10) {
+            if (dividers(absnum) == 2) {
+                sum + absnum
+            }
+            else {
+                sum
+            }
+        }
+        else {
+            val digit = absnum % 10
+            var newSum = sum
+            if (dividers(digit) == 2) {
+                newSum += digit
+            }
+            primeDigitsSum(absnum / 10, newSum)
+        }
+    }
 }
 
 fun main() {
@@ -118,4 +190,6 @@ fun main() {
     println(rec.digitsLessThan3TailRec(-123))
     println(rec.dividers(-12))
     println(rec.dividersTailRec(-12))
+    println(rec.primeDividersSum(12))
+    println(rec.complexFuncFor7(15))
 }
