@@ -180,16 +180,46 @@ class RecursiveFuncs {
             primeDigitsSum(absnum / 10, newSum)
         }
     }
+
+    /**
+     * Сумма всех чисел, которые равны сумме факториала их цифр
+     */
+    tailrec fun sumNumsEqToDigitsFactSum(number: Int, curNum: Int = 10, sum: Int = 0): Int {
+        val absnum = abs(number)
+        return if (curNum > absnum) {
+            sum
+        }
+        else {
+            var newSum = sum
+            if (curNum == digitsFactSum(curNum)) {
+                newSum += curNum
+            }
+            sumNumsEqToDigitsFactSum(absnum, curNum + 1, newSum)
+        }
+    }
+    // Сумма факториалов цифр
+    tailrec fun digitsFactSum(number: Int, sum: Int = 0): Int {
+        return if (number < 10){
+            sum + fact(number)
+        }
+        else {
+            val digit = number % 10
+            digitsFactSum(number / 10, sum + fact(digit))
+        }
+    }
+    // Факториал числа
+    tailrec fun fact(number: Int, curFact: Int = 1): Int = if (number <= 1) curFact else fact(number - 1, curFact * number)
 }
 
 fun main() {
     val rec = RecursiveFuncs()
-    println(rec.findMinDigit(-123))
-    println(rec.findMinDigitTailRec(-123))
-    println(rec.digitsLessThan3(-123))
-    println(rec.digitsLessThan3TailRec(-123))
-    println(rec.dividers(-12))
-    println(rec.dividersTailRec(-12))
-    println(rec.primeDividersSum(12))
-    println(rec.complexFuncFor7(15))
+//    println(rec.findMinDigit(-123))
+//    println(rec.findMinDigitTailRec(-123))
+//    println(rec.digitsLessThan3(-123))
+//    println(rec.digitsLessThan3TailRec(-123))
+//    println(rec.dividers(-12))
+//    println(rec.dividersTailRec(-12))
+//    println(rec.primeDividersSum(12))
+//    println(rec.complexFuncFor7(15))
+    println(rec.sumNumsEqToDigitsFactSum(100000))
 }
