@@ -1,16 +1,20 @@
 import java.io.File
 
 fun main(args: Array<String>) {
+
+    if (args.isEmpty()) {
+        println("Пожалуйста, укажите путь к файлу в качестве аргумента командной строки.")
+        return
+    }
+
     // Читаем входной файл
-    val inputFile = File("input.txt")
+    val inputFile = File(args[0])
 
     // Проверяем, существует ли входной файл
     if (!inputFile.exists()) {
         println("Входной файл не найден!")
         return
     }
-
-    val outputFile = File("output.txt")
 
     val rec = RecursiveFuncs()
 
@@ -22,7 +26,7 @@ fun main(args: Array<String>) {
         val parts = line.split(" ")
         if (parts.size != 2) {
             println("Некорректная строка: $line")
-            continue
+            return
         }
 
         val number = parts[0].toIntOrNull()
@@ -30,7 +34,7 @@ fun main(args: Array<String>) {
 
         if (number == null) {
             println("Некорректное число: ${parts[0]}")
-            continue
+            return
         }
 
         // Вызываем соответствующую функцию и записываем результат
@@ -43,15 +47,15 @@ fun main(args: Array<String>) {
             "dividersTailRec" -> rec.dividersTailRec(number)
             else -> {
                 println("Неизвестная функция: $functionName")
-                continue
+                return
             }
         }
 
-        outputLines.add("$result $functionName")
+        outputLines.add("$number $functionName $result")
     }
 
-    // Записываем результаты в выходной файл
+    // Записываем результаты в выходной файл при отсутствии ошибок
+    val outputFile = File("output.txt")
     outputFile.writeText(outputLines.joinToString("\n"))
-
     println("Файл сохранён как ${outputFile.absolutePath}")
 }
