@@ -53,8 +53,8 @@ class RecursiveFuncs {
     // Рекурсия вниз
     tailrec fun digitsLessThan3TailRec(number: Int, count: Int = 0): Int {
         val absnum = abs(number)
-        return if (absnum == 0) {
-            count
+        return if (absnum < 10) {
+            if (absnum < 3) count + 1 else count
         }
         else {
             val digit = absnum % 10
@@ -68,22 +68,24 @@ class RecursiveFuncs {
      */
     // Рекурсия вверх
     fun dividers(number: Int, divider: Int = 1): Int {
-        return if (divider == number) {
+        val absnum = abs(number)
+        return if (absnum == 0) 0 else if (divider == absnum) {
             1
         }
         else {
-            val countRest = dividers(number, divider + 1)
-            if (number % divider == 0) countRest + 1 else countRest
+            val countRest = dividers(absnum, divider + 1)
+            if (absnum % divider == 0) countRest + 1 else countRest
         }
     }
     // Рекурсия вниз
     tailrec fun dividersTailRec(number: Int, divider: Int = 1, count: Int = 0): Int {
-        return if (divider == number) {
+        val absnum = abs(number)
+        return if (absnum == 0) 0 else if (divider == absnum) {
             count + 1
         }
         else {
-            val curCount = if (number % divider == 0) count + 1 else count
-            dividersTailRec(number, divider + 1, curCount)
+            val curCount = if (absnum % divider == 0) count + 1 else count
+            dividersTailRec(absnum, divider + 1, curCount)
         }
     }
 
@@ -110,7 +112,10 @@ class RecursiveFuncs {
 
 fun main() {
     val rec = RecursiveFuncs()
-    println(rec.dividers(12))
-    println(rec.dividersTailRec(12))
-    println(rec.findMax(listOf(123,121,789), rec::digitsLessThan3))
+    println(rec.findMinDigit(-123))
+    println(rec.findMinDigitTailRec(-123))
+    println(rec.digitsLessThan3(-123))
+    println(rec.digitsLessThan3TailRec(-123))
+    println(rec.dividers(-12))
+    println(rec.dividersTailRec(-12))
 }
