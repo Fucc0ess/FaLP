@@ -1,0 +1,6 @@
+5123 findMinDigit
+5123 findMinDigitTailRec
+5123 digitsLessThan3
+5123 digitsLessThan3TailRec
+12 dividers
+-12 dividersTailRec

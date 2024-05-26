@@ -1,0 +1,6 @@
+1 findMinDigit
+1 findMinDigitTailRec
+2 digitsLessThan3
+2 digitsLessThan3TailRec
+6 dividers
+6 dividersTailRec
