@@ -213,13 +213,13 @@ class RecursiveFuncs {
 
 fun main() {
     val rec = RecursiveFuncs()
-//    println(rec.findMinDigit(-123))
-//    println(rec.findMinDigitTailRec(-123))
-//    println(rec.digitsLessThan3(-123))
-//    println(rec.digitsLessThan3TailRec(-123))
-//    println(rec.dividers(-12))
-//    println(rec.dividersTailRec(-12))
-//    println(rec.primeDividersSum(12))
-//    println(rec.complexFuncFor7(15))
+    println(rec.findMinDigit(-123))
+    println(rec.findMinDigitTailRec(-123))
+    println(rec.digitsLessThan3(-123))
+    println(rec.digitsLessThan3TailRec(-123))
+    println(rec.dividers(-12))
+    println(rec.dividersTailRec(-12))
+    println(rec.primeDividersSum(12))
+    println(rec.complexFuncFor7(15))
     println(rec.sumNumsEqToDigitsFactSum(100000))
 }
