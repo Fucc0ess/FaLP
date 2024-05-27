@@ -12,10 +12,6 @@ pr_teachers:-
 
     Teachers = [[moroz,_,_,_],[vasiliev,_,_,_],[tokarev,_,_,_]],
 
-    in_list(Teachers,[moroz,_,_,_]),
-    in_list(Teachers,[vasiliev,_,_,_]),
-    in_list(Teachers,[tokarev,_,_,_]),
-
     in_list(Teachers,[_,_,history,_]),
     in_list(Teachers,[_,_,math,_]),
     in_list(Teachers,[_,_,engl,_]),
